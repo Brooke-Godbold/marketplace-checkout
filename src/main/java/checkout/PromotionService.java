@@ -4,6 +4,8 @@ import model.Item;
 import org.springframework.stereotype.Component;
 import utils.PromotionUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 @Component("promotions")
@@ -18,11 +20,24 @@ public class PromotionService {
         }};
     }
 
+    public Integer getTravelCardHolderCode() {
+        return PromotionUtils.TRAVEL_CARD_HOLDER_CODE;
+    }
+
     public ArrayList<Item> calculateItemPromotions(ArrayList<Item> products, ArrayList<Boolean> promotions) {
         if(promotions.contains(PromotionUtils.TWO_OR_MORE_TRAVEL_CARD_HOLDERS)) {
-            for(Item product : products) {
-                if(product.getProductCode().equals(PromotionUtils.TRAVEL_CARD_HOLDER_CODE)) {
-                    product.setPrice(8.50);
+            int travelCardHolders = 0;
+            for(Item item : products) {
+                if (item.getProductCode().equals(PromotionUtils.TRAVEL_CARD_HOLDER_CODE)) {
+                    travelCardHolders++;
+                }
+            }
+
+            if(travelCardHolders > 1) {
+                for(Item product : products) {
+                    if(product.getProductCode().equals(PromotionUtils.TRAVEL_CARD_HOLDER_CODE)) {
+                        product.setPrice(8.50);
+                    }
                 }
             }
         }

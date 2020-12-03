@@ -17,23 +17,32 @@ class CheckoutServiceTest {
 
     CheckoutService checkoutService = new CheckoutService();
 
+    ArrayList<Item> mockInventory = new ArrayList<Item>(){{
+        add(new Item(001, "Travel Card Holder", 9.25));
+        add(new Item(002, "Personalised cufflinks", 45.00));
+        add(new Item(003, "Kids T-shirt", 19.95));
+    }};
+
     @Test
     void scanValidProductCodeTest() {
-        InventoryService inventoryService = new InventoryService();
-        checkoutService.inventoryService = inventoryService;
+        InventoryService mockInventoryService = mock(InventoryService.class);
+        when(mockInventoryService.getInventory()).thenReturn(mockInventory);
+        checkoutService.inventoryService = mockInventoryService;
 
         BasketService mockBasketService = mock(BasketService.class);
         Mockito.doNothing().when(mockBasketService).addToBasket(any(Item.class));
         checkoutService.basketService = mockBasketService;
 
-        inventoryService.getInventory().forEach(item -> {
+        mockInventoryService.getInventory().forEach(item -> {
             assertThat(checkoutService.scan(item.getProductCode())).isTrue();
         });
     }
 
     @Test
     void scanInvalidProductCodeTest() {
-        checkoutService.inventoryService = new InventoryService();
+        InventoryService mockInventoryService = mock(InventoryService.class);
+        when(mockInventoryService.getInventory()).thenReturn(mockInventory);
+        checkoutService.inventoryService = mockInventoryService;
 
         assertThat(checkoutService.scan(0)).isFalse();
         assertThat(checkoutService.scan(-1)).isFalse();
@@ -56,9 +65,11 @@ class CheckoutServiceTest {
 
     @Test
     void getInventory() {
-        InventoryService inventoryService = new InventoryService();
-        checkoutService.inventoryService = inventoryService;
-        assertThat(checkoutService.getInventory()).isEqualTo(inventoryService.getInventory());
+        InventoryService mockInventoryService = mock(InventoryService.class);
+        when(mockInventoryService.getInventory()).thenReturn(mockInventory);
+        checkoutService.inventoryService = mockInventoryService;
+
+        assertThat(checkoutService.getInventory()).isEqualTo(mockInventoryService.getInventory());
     }
 
     @Test

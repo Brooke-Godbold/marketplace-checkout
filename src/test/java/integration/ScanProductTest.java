@@ -1,57 +1,33 @@
 package integration;
 
-import checkout.BasketService;
-import checkout.CheckoutService;
-import checkout.InventoryService;
-import checkout.PromotionService;
-import controller.CheckoutController;
-import model.Item;
 import model.Product;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
+import utils.RestUtils;
 
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(
-        classes = { CheckoutController.class, CheckoutService.class, PromotionService.class, InventoryService.class, BasketService.class },
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
-        )
-@EnableAutoConfiguration
-public class ScanProductTest {
+public class ScanProductTest extends BaseIntegrationTest {
 
-    @LocalServerPort
-    private int port;
-
-    @Autowired
-    CheckoutController checkoutController;
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
-    public void CanScanProduct() {
+    public void canScanProduct() {
         Product product = new Product();
         product.setProductCode(001);
 
-        ResponseEntity scanResponse = this.restTemplate.postForEntity("http://localhost:" + port + "/scan", product, String.class);
+        ResponseEntity scanResponse = RestUtils.postReturnString(restTemplate, port, RestUtils.SCAN, product);
         assertThat(scanResponse.getBody()).isEqualTo("success");
+    }
 
-        ResponseEntity<ArrayList<Item>> basketResponse = restTemplate.exchange(
-                "http://localhost:" + port + "/basket",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<ArrayList<Item>>() {}
-        );
-        assertThat(basketResponse.getBody().size()).isEqualTo(1);
-        assertThat(basketResponse.getBody().get(0).getProductCode()).isEqualTo(1);
+    @Test
+    public void canHandleInvalidProductScan() {
+        Product product = new Product();
+        product.setProductCode(0);
+
+        ResponseEntity scanResponse = RestUtils.postReturnString(restTemplate, port, RestUtils.SCAN, product);
+        assertThat(scanResponse.getStatusCodeValue()).isEqualTo(404);
     }
 }

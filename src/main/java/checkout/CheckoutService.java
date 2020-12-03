@@ -23,7 +23,7 @@ public class CheckoutService {
     public boolean scan(Integer productCode) {
         for(Item item : inventoryService.getInventory()) {
             if (item.getProductCode().equals(productCode)) {
-                basketService.addToBasket(item);
+                basketService.addToBasket((Item) item.clone());
                 return true;
             }
         }

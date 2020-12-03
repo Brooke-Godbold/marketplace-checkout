@@ -1,6 +1,7 @@
 package controller;
 
 import checkout.CheckoutService;
+import exception.ProductCodeNotFoundException;
 import model.Item;
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class CheckoutController {
         if(checkoutService.scan(product.getProductCode())) {
             return "success";
         } else {
-            return "failed: could not find item";
+            throw new ProductCodeNotFoundException();
         }
     }
 
