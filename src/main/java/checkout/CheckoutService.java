@@ -39,28 +39,21 @@ public class CheckoutService {
     }
 
     public Double total() {
-        double price = 0;
-
         basketService.setBasketProducts(
                 promotionService.calculateItemPromotions(basketService.getBasketProducts(), promotionService.getPromotions()
         ));
-        price = getTotalPrice(price);
+        double price = getTotalPrice();
         price = promotionService.calculatePricePromotions(price, promotionService.getPromotions());
-        clearBasket();
+        basketService.clearBasket();
 
         return price;
     }
 
-    public double getTotalPrice(double price) {
+    public double getTotalPrice() {
+        double price = 0;
         for(Item product : basketService.getBasketProducts()) {
             price += product.getPrice();
         }
         return price;
-    }
-
-    public void clearBasket() {
-        basketService.setBasketProducts(
-                new ArrayList<>()
-        );
     }
 }

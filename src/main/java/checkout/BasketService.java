@@ -25,4 +25,8 @@ public class BasketService {
     public void setBasketProducts(ArrayList<Item> newBasket) {
         this.basketProducts = newBasket;
     }
+
+    public void clearBasket() {
+        basketProducts = new ArrayList<Item>();
+    }
 }

@@ -8,10 +8,10 @@ import java.util.ArrayList;
 @Component("inventory")
 public class InventoryService {
 
-    private ArrayList<Item> inventory;
+    private final ArrayList<Item> INVENTORY;
 
     public InventoryService() {
-        inventory = new ArrayList<Item>(){{
+        INVENTORY = new ArrayList<Item>(){{
             add(new Item(001, "Travel Card Holder", 9.25));
             add(new Item(002, "Personalised cufflinks", 45.00));
             add(new Item(003, "Kids T-shirt", 19.95));
@@ -19,6 +19,6 @@ public class InventoryService {
     }
 
     public ArrayList<Item> getInventory() {
-        return inventory;
+        return INVENTORY;
     }
 }

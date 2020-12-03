@@ -1,5 +1,6 @@
 package integration;
 
+import checkout.BasketService;
 import checkout.CheckoutService;
 import checkout.InventoryService;
 import checkout.PromotionService;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(
-        classes = { CheckoutController.class, CheckoutService.class, PromotionService.class},
+        classes = { CheckoutController.class, CheckoutService.class, PromotionService.class, InventoryService.class, BasketService.class },
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
         )
 @EnableAutoConfiguration

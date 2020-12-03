@@ -9,10 +9,10 @@ import java.util.ArrayList;
 @Component("promotions")
 public class PromotionService {
 
-    private ArrayList<Boolean> promotions;
+    private final ArrayList<Boolean> PROMOTIONS;
 
     public PromotionService() {
-        promotions = new ArrayList<Boolean>(){{
+        PROMOTIONS = new ArrayList<Boolean>(){{
             add(PromotionUtils.TEN_PERCENT_OFF);
             add(PromotionUtils.TWO_OR_MORE_TRAVEL_CARD_HOLDERS);
         }};
@@ -40,7 +40,7 @@ public class PromotionService {
     }
 
     public ArrayList<Boolean> getPromotions() {
-        return promotions;
+        return PROMOTIONS;
     }
 
 }
