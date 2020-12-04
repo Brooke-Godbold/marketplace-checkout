@@ -4,10 +4,15 @@ import model.Item;
 import org.springframework.stereotype.Component;
 import utils.PromotionUtils;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
+/**
+ * Service to handle the Promotions in the Checkout System.
+ * Will load the Promotions into the System. Will also calculate the new price with Promotions
+ * applied for a previously given price.
+ *
+ * @author Brooke Godbold
+ */
 @Component("promotions")
 public class PromotionService {
 
@@ -18,10 +23,6 @@ public class PromotionService {
             add(PromotionUtils.TEN_PERCENT_OFF);
             add(PromotionUtils.TWO_OR_MORE_TRAVEL_CARD_HOLDERS);
         }};
-    }
-
-    public Integer getTravelCardHolderCode() {
-        return PromotionUtils.TRAVEL_CARD_HOLDER_CODE;
     }
 
     public ArrayList<Item> calculateItemPromotions(ArrayList<Item> products, ArrayList<Boolean> promotions) {

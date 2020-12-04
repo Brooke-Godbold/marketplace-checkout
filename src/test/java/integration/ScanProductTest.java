@@ -6,8 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import utils.RestUtils;
 
-import java.util.ArrayList;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ScanProductTest extends BaseIntegrationTest {
@@ -16,9 +14,10 @@ public class ScanProductTest extends BaseIntegrationTest {
     @Test
     public void canScanProduct() {
         Product product = new Product();
-        product.setProductCode(001);
+        product.setProductCode(1);
 
         ResponseEntity scanResponse = RestUtils.postReturnString(restTemplate, port, RestUtils.SCAN, product);
+        assertThat(scanResponse.getStatusCodeValue()).isEqualTo(200);
         assertThat(scanResponse.getBody()).isEqualTo("success");
     }
 

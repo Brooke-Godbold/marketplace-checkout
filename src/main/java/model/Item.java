@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Represents an Item in the Checkout System available for purchase.
+ * @author Brooke Godbold
+ */
 public class Item {
 
     private final Integer productCode;
@@ -14,7 +18,7 @@ public class Item {
 
     @Override
     public Object clone() {
-        Item item = null;
+        Item item;
         try {
             item = (Item) super.clone();
         } catch (CloneNotSupportedException e) {

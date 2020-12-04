@@ -17,20 +17,28 @@ public class GetBasketTest extends BaseIntegrationTest {
     @Test
     public void canGetCorrectItemsInBasket() {
         Product product = new Product();
-        product.setProductCode(001);
+        product.setProductCode(1);
+        RestUtils.postReturnString(restTemplate, port, RestUtils.SCAN, product);
 
+        product.setProductCode(2);
         RestUtils.postReturnString(restTemplate, port, RestUtils.SCAN, product);
 
         ResponseEntity<ArrayList<Item>> basketResponse = RestUtils.getItemListResponse(restTemplate, port, RestUtils.BASKET);
-        assertThat(basketResponse.getBody().size()).isEqualTo(1);
-        assertThat(basketResponse.getBody().get(0).getProductCode()).isEqualTo(1);
 
-        //TODO: Test with more than 1
+        assertThat(basketResponse.getStatusCodeValue()).isEqualTo(200);
+        assertThat(basketResponse.getBody().size()).isEqualTo(2);
+        assertThat(
+                basketResponse.getBody().stream().anyMatch(actualItem -> actualItem.getProductCode().equals(1))
+        ).isTrue();
+        assertThat(
+                basketResponse.getBody().stream().anyMatch(actualItem -> actualItem.getProductCode().equals(2))
+        ).isTrue();
     }
 
     @Test
     public void canGetNoItemsInBasket() {
         ResponseEntity<ArrayList<Item>> basketResponse = RestUtils.getItemListResponse(restTemplate, port, RestUtils.BASKET);
+        assertThat(basketResponse.getStatusCodeValue()).isEqualTo(200);
         assertThat(basketResponse.getBody().size()).isEqualTo(0);
     }
 }

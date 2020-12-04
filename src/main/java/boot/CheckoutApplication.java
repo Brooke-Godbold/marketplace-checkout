@@ -1,7 +1,6 @@
 package boot;
 
 import checkout.CheckoutService;
-import checkout.InventoryService;
 import controller.CheckoutController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

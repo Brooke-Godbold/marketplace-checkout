@@ -5,7 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
+/**
+ * Service to handle the overall Checkout System.
+ * Can view and call the Basket Service, and will perform price calculations for a
+ * given List of Items, while delegating to the Promotion Service to apply Promotions
+ * currently loaded into the System.
+ *
+ * @author Brooke Godbold
+ */
 @Component("checkout")
 public class CheckoutService {
 
@@ -21,11 +30,12 @@ public class CheckoutService {
     public CheckoutService() { }
 
     public boolean scan(Integer productCode) {
-        for(Item item : inventoryService.getInventory()) {
-            if (item.getProductCode().equals(productCode)) {
-                basketService.addToBasket((Item) item.clone());
-                return true;
-            }
+        Optional<Item> matchedInventory = inventoryService.getInventory().stream()
+                .filter(inventoryItem -> inventoryItem.getProductCode().equals(productCode))
+                .findFirst();
+        if(matchedInventory.isPresent()) {
+            basketService.addToBasket((Item) matchedInventory.get().clone());
+            return true;
         }
         return false;
     }

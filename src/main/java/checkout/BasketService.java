@@ -5,13 +5,20 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+/**
+ * Service which handles the state of the Basket.
+ * Stores the Items which are currently in the Basket, and can manipulate and return
+ * this List as required.
+ *
+ * @author Brooke Godbold
+ */
 @Component("basketService")
 public class BasketService {
 
     private ArrayList<Item> basketProducts;
 
     public BasketService() {
-        basketProducts = new ArrayList<Item>();
+        basketProducts = new ArrayList<>();
     }
 
     public void addToBasket(Item item) {
@@ -27,6 +34,6 @@ public class BasketService {
     }
 
     public void clearBasket() {
-        basketProducts = new ArrayList<Item>();
+        basketProducts = new ArrayList<>();
     }
 }

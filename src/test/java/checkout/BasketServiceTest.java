@@ -12,7 +12,7 @@ class BasketServiceTest {
 
     @Test
     void getBasketProductsDetailsTest() {
-        Item testItem = new Item(005, "Test Item", 7.85);
+        Item testItem = new Item(5, "Test Item", 7.85);
         basketService.addToBasket(testItem);
         assertThat(basketService.getBasketProducts().get(0).getProductCode()).isEqualTo(5);
         assertThat(basketService.getBasketProducts().get(0).getName()).isEqualTo("Test Item");

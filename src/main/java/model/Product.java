@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Represents a Product as a Product Code.
+ * @author Brooke Godbold
+ */
 public class Product {
 
     private int productCode;

@@ -5,6 +5,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+/**
+ * Service which handles the Inventory.
+ * Can Load and return the Inventory.
+ *
+ * @author Brooke Godbold
+ */
 @Component("inventory")
 public class InventoryService {
 
@@ -12,9 +18,9 @@ public class InventoryService {
 
     public InventoryService() {
         INVENTORY = new ArrayList<Item>(){{
-            add(new Item(001, "Travel Card Holder", 9.25));
-            add(new Item(002, "Personalised cufflinks", 45.00));
-            add(new Item(003, "Kids T-shirt", 19.95));
+            add(new Item(1, "Travel Card Holder", 9.25));
+            add(new Item(2, "Personalised cufflinks", 45.00));
+            add(new Item(3, "Kids T-shirt", 19.95));
         }};
     }
 
