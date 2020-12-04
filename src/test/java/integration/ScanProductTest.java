@@ -17,7 +17,7 @@ public class ScanProductTest extends BaseIntegrationTest {
         product.setProductCode(1);
 
         ResponseEntity scanResponse = RestUtils.postReturnString(restTemplate, port, RestUtils.SCAN, product);
-        assertThat(scanResponse.getStatusCodeValue()).isEqualTo(200);
+        assertThat(scanResponse.getStatusCodeValue()).isEqualTo(201);
         assertThat(scanResponse.getBody()).isEqualTo("success");
     }
 

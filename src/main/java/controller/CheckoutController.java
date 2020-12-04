@@ -5,10 +5,8 @@ import exception.ProductCodeNotFoundException;
 import model.Item;
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -28,6 +26,7 @@ public class CheckoutController {
      * @return  List of Items available in the Inventory
      */
     @GetMapping("/inventory")
+    @ResponseStatus(HttpStatus.OK)
     public ArrayList<Item> getInventory() {
         return checkoutService.getInventory();
     }
@@ -39,6 +38,7 @@ public class CheckoutController {
      * @return          String 'success' if the item was found in Inventory and added to Basked
      */
     @PostMapping(path = "/scan", consumes = "application/json", produces = "text/plain")
+    @ResponseStatus(HttpStatus.CREATED)
     public String scan(@RequestBody Product product) {
         if(checkoutService.scan(product.getProductCode())) {
             return "success";
@@ -53,6 +53,7 @@ public class CheckoutController {
      * @return  List of Items currently in the Basket
      */
     @GetMapping("/basket")
+    @ResponseStatus(HttpStatus.OK)
     public ArrayList<Item> getBasket() {
         return checkoutService.getBasketProducts();
     }
@@ -64,6 +65,7 @@ public class CheckoutController {
      * @return  String with the Total Price of all Items in the Basket
      */
     @GetMapping(value = "/checkout", produces = "text/plain")
+    @ResponseStatus(HttpStatus.OK)
     public String getTotal() {
         Double total = checkoutService.total();
         return "Total Price: £" + String.format("%.2f", total);
